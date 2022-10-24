@@ -54,7 +54,7 @@ export default function App() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.btn}>
-          <TouchableOpacity onPress = {() => navigation.navigate('TSE_1', {}) } style={{flexDirection: 'row'}}>
+          <TouchableOpacity onPress = {() => navigation.navigate('TSE_2', {}) } style={{flexDirection: 'row'}}>
             <Image source={imageMap} />
             <Text style={styles.btnMap}>
               ลานจอดรถคณะวิศวะ 2{"\n"}
