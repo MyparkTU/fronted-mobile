@@ -61,43 +61,43 @@ export default function App() {
             />
           </View> */}
           <View style={styles.search} >
-              <SelectDropdown
-              data={search}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-              }}
-              defaultButtonText={'จอดไหนดี?'}
-              
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-              buttonStyle={styles.dropdown1BtnStyle}
-              buttonTextStyle={styles.dropdown1BtnTxtStyle}
-              renderDropdownIcon={isOpened => {
-                return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#035397'} size={15} />;
-              }}
-              dropdownIconPosition={'right'}
-              dropdownStyle={styles.dropdown1DropdownStyle}
-              rowStyle={styles.dropdown1RowStyle}
-              rowTextStyle={styles.dropdown1RowTxtStyle}
-              selectedRowStyle={styles.dropdown1SelectedRowStyle}
-              search
-              searchInputStyle={styles.dropdown1searchInputStyleStyle}
-              searchPlaceHolder={'Search here'}
-              searchPlaceHolderColor={'darkgrey'}
-              renderSearchInputLeftIcon={() => {
-                return <FontAwesome name={'search'} color={'#343434'} size={18} />;
-              }}
-              // renderCustomizedButtonChild={(selectedItem, index) => {
-              //   return (
-              //     <View style={styles.dropdown3BtnChildStyle}>
-              //       <MaterialCommunityIcons name="magnify" color={'#343434'} size={20} />
-              //     </View>
-              //   );
-              // }}
+            <SelectDropdown
+            data={search}
+            onSelect={(selectedItem, index) => {
+              console.log(selectedItem, index);
+            }}
+            defaultButtonText={'จอดไหนดี?'}
+            
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            buttonStyle={styles.dropdown1BtnStyle}
+            buttonTextStyle={styles.dropdown1BtnTxtStyle}
+            renderDropdownIcon={isOpened => {
+              return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#035397'} size={15} />;
+            }}
+            dropdownIconPosition={'right'}
+            dropdownStyle={styles.dropdown1DropdownStyle}
+            rowStyle={styles.dropdown1RowStyle}
+            rowTextStyle={styles.dropdown1RowTxtStyle}
+            selectedRowStyle={styles.dropdown1SelectedRowStyle}
+            search
+            searchInputStyle={styles.dropdown1searchInputStyleStyle}
+            searchPlaceHolder={'Search here'}
+            searchPlaceHolderColor={'darkgrey'}
+            renderSearchInputLeftIcon={() => {
+              return <FontAwesome name={'search'} color={'#343434'} size={18} />;
+            }}
+            // renderCustomizedButtonChild={(selectedItem, index) => {
+            //   return (
+            //     <View style={styles.dropdown3BtnChildStyle}>
+            //       <MaterialCommunityIcons name="magnify" color={'#343434'} size={20} />
+            //     </View>
+            //   );
+            // }}
             />
           </View>
         </ImageBackground>
