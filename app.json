@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "MyP",
+    "slug": "MyP",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/LogoDark.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/PreloadDark.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#035397"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/LogoDark.png",
+        "backgroundColor": "#035397"
+      }
+    },
+    "web": {
+      "favicon": "./assets/images/LogoDark.png"
+    }
+  }
+}
