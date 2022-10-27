@@ -1,10 +1,14 @@
 import { StyleSheet, Text, View, SafeAreaView, VirtualizedList, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import { setPark, setParkInfo } from '../redux/action';
 
 const imageMap = require('../assets/map/tsePark2.png');
 
 export default function App() {
   const navigation = useNavigation();
+  const { park, parkInfo } = useSelector(state => state.dbReducer);
+  const dispatch = useDispatch();
   const data = [
     {
       id: 1,
@@ -54,17 +58,17 @@ export default function App() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.btn}>
-          <TouchableOpacity onPress = {() => navigation.navigate('TSE_2', {}) } style={{flexDirection: 'row'}}>
-            <Image source={imageMap} />
-            <Text style={styles.btnMap}>
-              ลานจอดรถคณะวิศวะ 2{"\n"}
-              <Text style={{fontSize: 14, color: '#818181'}}>
-                  พื้นที่จอดรถสาธารณะ
-              </Text>
+        <TouchableOpacity onPress = {() => navigation.navigate('TSE_1', {}) } style={{flexDirection: 'row'}}>
+          <Image source={imageMap} />
+          <Text style={styles.btnMap}>
+            {park + "\n"}
+            <Text style={{fontSize: 14, color: '#818181'}}>
+                {parkInfo}
             </Text>
-          </TouchableOpacity>
-        </View>
-      <VirtualizedList
+          </Text>
+        </TouchableOpacity>
+      </View>
+      {/* <VirtualizedList
         style={styles.list}
         data={data}
         initialNumToRender={4}
@@ -75,7 +79,7 @@ export default function App() {
         getItemCount={data => data.length}
         getItem={getItem}
         onEndReached={loadMoreItems}
-      />
+      /> */}
     </ScrollView>
   );
 }
@@ -115,10 +119,10 @@ const styles = StyleSheet.create({
   },
   btn: {
     flexDirection: 'row',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#FFF',
     height: 114.5,
-    borderBottomColor: '#818181',
+    borderBottomColor: '#EBEBEB',
     marginTop: 10,
     width: '95%',
     alignSelf: 'center'

@@ -10,6 +10,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import { Provider } from 'react-redux';
+import { Store } from './redux/store';
+
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 const HeadImage = require('./assets/images/HeaderHome.png');
@@ -47,77 +50,79 @@ export default function App() {
     return null;
   } else {
     return (
-      <View style={{flex: 1}}>
-        <ImageBackground source={HeadImage} style={styles.image}>
-          <View style={styles.viewHead}>
-            <Text style={styles.textHead1}>
-              หาสถานที่จอดรถของ
-            </Text>
-            <Text style={styles.textHead1}>
-              คุณได้เลย!
-            </Text>
+      <Provider store={Store}>
+        <View style={{flex: 1}}>
+          <ImageBackground source={HeadImage} style={styles.image}>
+            <View style={styles.viewHead}>
+              <Text style={styles.textHead1}>
+                หาสถานที่จอดรถของ
+              </Text>
+              <Text style={styles.textHead1}>
+                คุณได้เลย!
+              </Text>
+            </View>
+            <View style={{marginTop: 30}}/>
+            {/* <View style={styles.search}>
+              <MaterialCommunityIcons
+                  style={styles.icon}
+                  name={'magnify'}
+                  size={20}
+                  color='#343434' 
+              />
+              <TextInput
+                placeholder='จอดไหนดี?'
+                placeholderTextColor={'#343434'}
+                paddingLeft={10}
+                style={styles.textInput}
+              />
+            </View> */}
+            <View style={styles.search} >
+                <SelectDropdown
+                data={search}
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index);
+                }}
+                defaultButtonText={'จอดไหนดี?'}
+                
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item;
+                }}
+                buttonStyle={styles.dropdown1BtnStyle}
+                buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                renderDropdownIcon={isOpened => {
+                  return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#035397'} size={15} />;
+                }}
+                dropdownIconPosition={'right'}
+                dropdownStyle={styles.dropdown1DropdownStyle}
+                rowStyle={styles.dropdown1RowStyle}
+                rowTextStyle={styles.dropdown1RowTxtStyle}
+                selectedRowStyle={styles.dropdown1SelectedRowStyle}
+                search
+                searchInputStyle={styles.dropdown1searchInputStyleStyle}
+                searchPlaceHolder={'Search here'}
+                searchPlaceHolderColor={'darkgrey'}
+                renderSearchInputLeftIcon={() => {
+                  return <FontAwesome name={'search'} color={'#343434'} size={18} />;
+                }}
+                // renderCustomizedButtonChild={(selectedItem, index) => {
+                //   return (
+                //     <View style={styles.dropdown3BtnChildStyle}>
+                //       <MaterialCommunityIcons name="magnify" color={'#343434'} size={20} />
+                //     </View>
+                //   );
+                // }}
+              />
+            </View>
+          </ImageBackground>
+          <View style={styles.contain}>
+            <View style={{marginTop: 14}}/>
+            <Navigation />
           </View>
-          <View style={{marginTop: 30}}/>
-          {/* <View style={styles.search}>
-            <MaterialCommunityIcons
-                style={styles.icon}
-                name={'magnify'}
-                size={20}
-                color='#343434' 
-            />
-            <TextInput
-              placeholder='จอดไหนดี?'
-              placeholderTextColor={'#343434'}
-              paddingLeft={10}
-              style={styles.textInput}
-            />
-          </View> */}
-          <View style={styles.search} >
-            <SelectDropdown
-            data={search}
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index);
-            }}
-            defaultButtonText={'จอดไหนดี?'}
-            
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item;
-            }}
-            buttonStyle={styles.dropdown1BtnStyle}
-            buttonTextStyle={styles.dropdown1BtnTxtStyle}
-            renderDropdownIcon={isOpened => {
-              return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#035397'} size={15} />;
-            }}
-            dropdownIconPosition={'right'}
-            dropdownStyle={styles.dropdown1DropdownStyle}
-            rowStyle={styles.dropdown1RowStyle}
-            rowTextStyle={styles.dropdown1RowTxtStyle}
-            selectedRowStyle={styles.dropdown1SelectedRowStyle}
-            search
-            searchInputStyle={styles.dropdown1searchInputStyleStyle}
-            searchPlaceHolder={'Search here'}
-            searchPlaceHolderColor={'darkgrey'}
-            renderSearchInputLeftIcon={() => {
-              return <FontAwesome name={'search'} color={'#343434'} size={18} />;
-            }}
-            // renderCustomizedButtonChild={(selectedItem, index) => {
-            //   return (
-            //     <View style={styles.dropdown3BtnChildStyle}>
-            //       <MaterialCommunityIcons name="magnify" color={'#343434'} size={20} />
-            //     </View>
-            //   );
-            // }}
-            />
-          </View>
-        </ImageBackground>
-        <View style={styles.contain}>
-          <View style={{marginTop: 14}}/>
-          <Navigation />
         </View>
-      </View>
+      </Provider>
     );
   }
 }

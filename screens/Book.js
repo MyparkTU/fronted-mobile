@@ -1,6 +1,13 @@
-import { StyleSheet, Text, View, SafeAreaView, VirtualizedList } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, VirtualizedList, TextInput, TouchableOpacity } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { setPark, setParkInfo } from '../redux/action';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function App() {
+  const navigation = useNavigation();
+  const { park, parkInfo } = useSelector(state => state.dbReducer);
+  const dispatch = useDispatch();
   const data = [
     {
       id: 1,
@@ -49,7 +56,24 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <VirtualizedList
+      <TextInput
+        style={styles.input}
+        placeholder='Enter park name'
+        placeholderTextColor={'#aa0022'}
+        onChangeText={(value) => dispatch(setPark(value))}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder='Enter park info'
+        placeholderTextColor={'#aa0022'}
+        onChangeText={(value) => dispatch(setParkInfo(value))}
+      />
+      <TouchableOpacity onPress = {() => navigation.navigate('Car', {}) } style={styles.button}>
+        <Text style={styles.input}>
+            set data
+        </Text>
+      </TouchableOpacity>
+      {/* <VirtualizedList
         style={styles.list}
         data={data}
         initialNumToRender={4}
@@ -60,7 +84,7 @@ export default function App() {
         getItemCount={data => data.length}
         getItem={getItem}
         onEndReached={loadMoreItems}
-      />
+      /> */}
     </SafeAreaView>
   );
 }
@@ -70,7 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   item: {
     height: 100,
@@ -91,5 +115,14 @@ const styles = StyleSheet.create({
   divider: {
     height: 2,
     backgroundColor: "#EBEBEB"
+  },
+  input: {
+    width: '90%',
+    borderWidth: 1,
+    borderColor: '#555',
+    borderRadius: 10,
+    textAlign: 'center',
+    fontSize: 20,
+    marginBottom: 10,
   }
 });

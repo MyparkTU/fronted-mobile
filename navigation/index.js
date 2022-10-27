@@ -9,9 +9,8 @@ import Motorcycle from '../screens/Motorcycle';
 import Bicycle from '../screens/Bicycle';
 import Book from '../screens/Book';
 import Report from '../screens/Report';
-import Tse_1 from '../screens/park/tse_1';
-import Tse_2 from '../screens/park/tse_2';
-import Map from '../screens/Map';
+import Tse_1 from '../screens/park/tse_2'
+import Map from '../screens/Map'
 import { useNavigation } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -22,7 +21,7 @@ function PageStack() {
   const navigation = useNavigation();
   return (
     <Stack.Navigator 
-      initialRouteName='Car'
+      initialRouteName='Book'
       screenOptions={({ route, }) => ({
         tabBarIcon: ({ image, focused }) => {
           if (route.name == 'Car') {
@@ -106,10 +105,9 @@ function RootNavigator() {
     <Page.Navigator>
       <Page.Screen name="Root" component={PageStack} options={{ headerShown: false }} />
       <Page.Group screenOptions={{ presentation: 'modal' }}>
+        <Page.Screen  name="TSE_1" component={Tse_1} options={{ headerShown: false, title: "ลานจอดรถคณะวิศวะ 1"}} />
         <Page.Screen  name="Map" component={Map} options={{ headerShown: true, title: "MAP"}} />
         <Page.Screen name="Report" component={Report} options={{title: "Report"}} />
-        <Page.Screen  name="TSE_1" component={Tse_1} options={{ headerShown: false, title: "ลานจอดรถคณะวิศวะ 1"}} />
-        <Page.Screen  name="TSE_2" component={Tse_2} options={{ headerShown: false, title: "ลานจอดรถคณะวิศวะ 2"}} />
       </Page.Group>
     </Page.Navigator>
   );

@@ -49,7 +49,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <VirtualizedList
+      {/* <VirtualizedList
         style={styles.list}
         data={data}
         initialNumToRender={4}
@@ -60,7 +60,7 @@ export default function App() {
         getItemCount={data => data.length}
         getItem={getItem}
         onEndReached={loadMoreItems}
-      />
+      /> */}
     </SafeAreaView>
   );
 }
