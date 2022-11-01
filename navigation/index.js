@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, StyleSheet, Pressable } from 'react-native';
+import { Image, StyleSheet, Pressable, Dimensions, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Car from '../screens/Car';
 import Motorcycle from '../screens/Motorcycle';
@@ -17,11 +17,14 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 const Page = createNativeStackNavigator();
 const Stack = createMaterialTopTabNavigator();
 
+const {height: SCREEN_HEIGHT} = Dimensions.get('window');
+const {width: SCREEN_WIDTH} = Dimensions.get('window');
+
 function PageStack() {
   const navigation = useNavigation();
   return (
     <Stack.Navigator 
-      initialRouteName='Book'
+      initialRouteName='Car'
       screenOptions={({ route, }) => ({
         tabBarIcon: ({ image, focused }) => {
           if (route.name == 'Car') {
@@ -49,7 +52,8 @@ function PageStack() {
             )
           }
         },
-        tabBarItemStyle: {height: 100, top: -30},
+        tabBarItemStyle: {height: 110, top: -30},
+        tabBarStyle: {maxHeight: SCREEN_HEIGHT, top: (SCREEN_HEIGHT / 3 ) + 110, marginTop: -110},
       })}
     >
       <Stack.Screen 
@@ -104,11 +108,14 @@ function RootNavigator() {
   return (
     <Page.Navigator>
       <Page.Screen name="Root" component={PageStack} options={{ headerShown: false }} />
-      <Page.Group screenOptions={{ presentation: 'modal' }}>
+      {/* <Page.Group screenOptions={{ presentation: 'modal' }}>
         <Page.Screen  name="TSE_1" component={Tse_1} options={{ headerShown: false, title: "ลานจอดรถคณะวิศวะ 1"}} />
         <Page.Screen  name="Map" component={Map} options={{ headerShown: true, title: "MAP"}} />
         <Page.Screen name="Report" component={Report} options={{title: "Report"}} />
-      </Page.Group>
+      </Page.Group> */}
+      <Page.Screen  name="TSE_1" component={Tse_1} options={{ headerShown: false, title: "ลานจอดรถคณะวิศวะ 1"}} />
+      <Page.Screen  name="Map" component={Map} options={{ headerShown: true, title: "MAP"}} />
+      <Page.Screen name="Report" component={Report} options={{title: "Report"}} />
     </Page.Navigator>
   );
 }

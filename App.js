@@ -16,6 +16,7 @@ import { Store } from './redux/store';
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 const HeadImage = require('./assets/images/HeaderHome.png');
+const BodyImage = require('./assets/images/Body.png');
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -49,9 +50,9 @@ export default function App() {
   if (!isLoadingComplete) {
     return null;
   } else {
-    return (
-      <Provider store={Store}>
-        <View style={{flex: 1}}>
+    // return (
+    //   <Provider store={Store}>
+    //     <View style={{flex: 1}}>
           <ImageBackground source={HeadImage} style={styles.image}>
             <View style={styles.viewHead}>
               <Text style={styles.textHead1}>
@@ -117,11 +118,16 @@ export default function App() {
               />
             </View>
           </ImageBackground>
-          <View style={styles.contain}>
-            <View style={{marginTop: 14}}/>
-            <Navigation />
-          </View>
-        </View>
+    //       <View style={styles.contain}>
+    //         <View style={{marginTop: 14}}/>
+    //         <Navigation />
+    //       </View>
+    //     </View>
+    //   </Provider>
+    // );
+    return (
+      <Provider store={Store}>
+        <Navigation />
       </Provider>
     );
   }
