@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image } from 'rea
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const buttonImageReport = require('../../assets/button/btnProblem.png');
 const buttonImageNavi = require('../../assets/button/btnRoute.png');

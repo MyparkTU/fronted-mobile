@@ -83,49 +83,6 @@ export default function App() {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ImageBackground source={HeadImage} style={styles.image}>
-        <View style={styles.viewHead}>
-          <Text style={styles.textHead1}>
-            หาสถานที่จอดรถของ
-          </Text>
-          <Text style={styles.textHead1}>
-            คุณได้เลย!
-          </Text>
-        </View>
-        <View style={styles.search} >
-            <SelectDropdown
-            data={search}
-            onSelect={(selectedItem, index) => {
-              // console.log(selectedItem, index);
-              dispatch(setPark(selectedItem));
-            }}
-            defaultButtonText={'จอดไหนดี?'}
-            
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item;
-            }}
-            buttonStyle={styles.dropdown1BtnStyle}
-            buttonTextStyle={styles.dropdown1BtnTxtStyle}
-            renderDropdownIcon={isOpened => {
-              return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#035397'} size={15} />;
-            }}
-            dropdownIconPosition={'right'}
-            dropdownStyle={styles.dropdown1DropdownStyle}
-            rowStyle={styles.dropdown1RowStyle}
-            rowTextStyle={styles.dropdown1RowTxtStyle}
-            selectedRowStyle={styles.dropdown1SelectedRowStyle}
-            search
-            searchInputStyle={styles.dropdown1searchInputStyleStyle}
-            searchPlaceHolder={'Search here'}
-            searchPlaceHolderColor={'darkgrey'}
-            renderSearchInputLeftIcon={() => {
-              return <FontAwesome name={'search'} color={'#343434'} size={18} />;
-            }}
-          />
-        </View>
       <ScrollView style={styles.container}>
         <View style={styles.btn}>
           <TouchableOpacity onPress = {() => navigation.navigate('TSE_1', {}) } style={{flexDirection: 'row'}}>
@@ -151,7 +108,6 @@ export default function App() {
           onEndReached={loadMoreItems}
         /> */}
       </ScrollView>
-      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -160,7 +116,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    top: SCREEN_HEIGHT / 3 - 70
     // alignItems: 'center',
     // justifyContent: 'center',
   },
