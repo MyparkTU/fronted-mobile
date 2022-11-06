@@ -73,15 +73,13 @@ export default function App() {
               dispatch(setParkLongtitude(item.longtitude)),
               dispatch(setParkImage(item.img[0])),
               dispatch(setParkImage2(item.img[1])),
-              dispatch(setParkImage3(item.img[2])),
               // dispatch(setParkImage4([item.img[0], item.img[1], item.img[2]])),
-              console.log(parkImage),
               console.log(item.img),
+              console.log(parkImage),
               console.log(parkImage2),
-              console.log(parkImage3),
               // console.log(parkImage4),
               )}>
-                <Image source={imageMap} />
+                <Image style={{width: 100, height: 100, borderRadius: 10}} source={{uri: item.img[0]}} />
                 <Text style={styles.btnMap}>
                   {item.name + "\n"}
                   <Text style={{fontSize: 14, color: '#818181'}}>

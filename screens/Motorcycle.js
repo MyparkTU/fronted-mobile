@@ -14,7 +14,7 @@ const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export default function App() {
   const navigation = useNavigation();
-  const { park, parkInfo, park2, parkInfo2, favoriteList } = useSelector(state => state.dbReducer);
+  const { park, parkInfo, park2, parkInfo2, favoriteList, parkImage, parkImage2 } = useSelector(state => state.dbReducer);
   const dispatch = useDispatch();
 
   const [isLoading, setLoading] = useState(false);
@@ -68,8 +68,12 @@ export default function App() {
             dispatch(setParkEmptyslot(item.quantity)),
             dispatch(setParkLatitude(item.latitude)),
             dispatch(setParkLongtitude(item.longtitude)),
-            dispatch(setParkImage(item.img)),) } style={{flexDirection: 'row'}}>
-              <Image source={imageMap} />
+            dispatch(setParkImage(item.img[0])),
+            dispatch(setParkImage2(item.img[1])),
+            console.log(parkImage),
+            console.log(parkImage2),
+            )} style={{flexDirection: 'row'}}>
+              <Image style={{width: 100, height: 100, borderRadius: 10}} source={{uri: item.img[0]}} />
               <Text style={styles.btnMap}>
                 {item.name + "\n"}
                 <Text style={{fontSize: 14, color: '#818181'}}>

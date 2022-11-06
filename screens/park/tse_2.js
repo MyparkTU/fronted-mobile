@@ -20,30 +20,34 @@ export default function App() {
 
     const navigation = useNavigation();
     const { park, parkInfo, parkImage, parkImage2, parkImage3, parkImage4 } = useSelector(state => state.dbReducer);
-    const parkImageStack = [parkImage, parkImage2, parkImage3]
+    const parkImageStack = [String(parkImage), String(parkImage2)]
     return (
         <View style={styles.container}>
-            <ImagesSwiper 
-                images={parkImageStack}
-                autoplay={true}
-                autoplayTimeout={1.5} 
-                showsPagination={true}
-                width={SCREEN_WIDTH - 40} 
-                height={(SCREEN_HEIGHT / 2)}
-            />
-            <Text style={{fontSize: 20, color: '#343434', fontFamily: 'Prompt-Regular'}}>
-                {park}
-            </Text>
-            <Text style={{fontSize: 14, color: '#818181', marginBottom: 40, fontFamily: 'Prompt-Regular'}}>
-                {parkInfo}
-            </Text>
-            <View style={styles.btn}>
-                <TouchableOpacity onPress = {() => navigation.navigate('Map', {}) }>
-                    <Image source={buttonImageNavi} style={{width: 150, height: 93, marginRight: 10}}/>
-                </TouchableOpacity>
-                <TouchableOpacity onPress = {() => navigation.navigate('Report', {}) }>
-                    <Image source={buttonImageReport} style={{width: 150, height: 93}}/>
-                </TouchableOpacity>
+            <View style={{top: 30, borderRadius: 40, borderColor: 'black'}}>
+                <ImagesSwiper 
+                    images={parkImageStack}
+                    autoplay={true}
+                    autoplayTimeout={4} 
+                    showsPagination={true}
+                    width={SCREEN_WIDTH - 40} 
+                    height={(SCREEN_HEIGHT / 2)}
+                />
+            </View>
+            <View style={{bottom: SCREEN_HEIGHT/3, alignItems: 'center'}}>
+                <Text style={{fontSize: 20, color: '#343434', fontFamily: 'Prompt-Regular'}}>
+                    {park}
+                </Text>
+                <Text style={{fontSize: 14, color: '#818181', marginBottom: 40, fontFamily: 'Prompt-Regular'}}>
+                    {parkInfo}
+                </Text>
+                <View style={styles.btn}>
+                    <TouchableOpacity onPress = {() => navigation.navigate('Map', {}) }>
+                        <Image source={buttonImageNavi} style={{width: 150, height: 93, marginRight: 10}}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress = {() => navigation.navigate('Report', {}) }>
+                        <Image source={buttonImageReport} style={{width: 150, height: 93}}/>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );
