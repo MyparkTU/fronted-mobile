@@ -27,7 +27,6 @@ export default function App() {
 
   const getPark = async () => {
      try {
-      // const response = await fetch('http:/192.168.1.132:3001/places/All');
       const response = await fetch('http:/192.168.168.182:3001/places/All');
       const json = await response.json();
       setData(json);

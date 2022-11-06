@@ -21,7 +21,6 @@ export default function App() {
   const [data, setData] = useState([]);
   const getMotorcycle = async () => {
     try {
-    //  const response = await fetch('http:/192.168.1.132:3001/places/motorcycle');
      const response = await fetch('http:/192.168.168.182:3001/places/motorcycle');
      const json = await response.json();
      setLoading(true);

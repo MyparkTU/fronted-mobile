@@ -22,7 +22,6 @@ export default function App() {
 
   const getCar = async () => {
      try {
-      // const response = await fetch('http:/192.168.1.132:3001/places/car');
       const response = await fetch('http:/192.168.168.182:3001/places/car');
       const json = await response.json();
       setLoading(true);
