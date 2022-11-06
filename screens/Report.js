@@ -59,9 +59,7 @@ export default function Report() {
     
     <View style={styles.view}>
         <View style={styles.container}>
-          <Image style={styles.sizeIMG}
-          source={imageMap} 
-          />
+        <Image style={{width: 300, height: 180, borderRadius: 10}} source={{uri: parkImage}} />
           
         </View>
         

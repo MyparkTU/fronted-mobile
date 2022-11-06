@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import {
   StyleSheet,
   Text,
@@ -7,20 +7,28 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  LogBox
 } from "react-native";
 import { useSelector } from 'react-redux';
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import MapViewDirections from "react-native-maps-directions";
 import * as Location from 'expo-location';
+import { useNavigation } from '@react-navigation/native';
 
 const alertcar = require("../assets/icon/AlertCar.png");
 const alertre = require("../assets/icon/ReportAlert.png");
 const carlocation = require("../assets/icon/CarLocation.png");
 const GOOGLE_API_KEY = "AIzaSyCH9insydnCX6StGLAx-TzqG-VXhHRQeR0"
 
+const {height: SCREEN_HEIGHT} = Dimensions.get('window');
+const {width: SCREEN_WIDTH} = Dimensions.get('window');
+
 function App() {
+  const navigation = useNavigation();
   const { park, parkInfo, parkLatitude, parkLongtitude, parkEmptyslot } = useSelector(state => state.dbReducer);
   const { width, height } = Dimensions.get("window");
+  LogBox.ignoreLogs(['MapViewDirections Error: Missing API Key'])
+  LogBox.ignoreLogs(['Warning: Failed prop type: The prop `apikey` is marked as required in `MapViewDirections`, but its value is `undefined`.'])
 
   const [destination, setdes] = useState({
     latitude: Number(parkLatitude),
@@ -28,16 +36,15 @@ function App() {
   });
 
   const [origin, setOrigin] = useState({ 
-    latitude: 0,
-    longitude: 0,
+    latitude: 14.069905376912853,
+    longitude: 100.60598635193016,
   });
  
-  const ASPECT_RATIO = width / height;
-  const LATITUDE_DELTA = (destination.latitude - origin.latitude)* 2.5
-  const LONGITUDE_DELTA = (destination.longitude - origin.longitude)* 2.5
+  const LATITUDE_DELTA = 0.015
+  const LONGITUDE_DELTA = 0.015
   const INITIAL_POSITION = {
-    latitude: (destination.latitude  + origin.latitude)/2,
-    longitude: (destination.latitude  + origin.longitude)/2,
+    latitude: origin.latitude,
+    longitude: origin.longitude,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   };
@@ -83,12 +90,12 @@ function App() {
         provider={PROVIDER_GOOGLE}
         initialRegion={INITIAL_POSITION}
       >
-        <MapView.Marker 
-          Image={carlocation}
-          draggable
+        <Marker 
           coordinate={origin}
           onDragEnd={(direction) => setOrigin(direction.nativeEvent.coordinate)}
-        />
+        >
+          <Image source={require('../assets/icon/UserLocation.png')} style={{height: 35, width:35 }} />
+        </Marker>
         <MapViewDirections origin={origin} destination={destination}/>
         <MapView.Marker
           coordinate={destination}
@@ -103,7 +110,6 @@ function App() {
           strokeColor="#5086EC"
           strokeWidth={5}
           onReady={traceRouteOnReady}
-          
         />
       </MapView>
 
@@ -113,17 +119,17 @@ function App() {
       <View style={styles.bottom}>
         <Text style={styles.texttime}>{Math.ceil(duration)} นาที {" "}
         <Text style={styles.textdis}>({distance.toFixed(2)} กม.) {" "}
-        <Text style={styles.emptylot}>ว่าง {lot} ที่</Text></Text></Text>
+        <Text style={styles.emptylot}>ว่าง {parkEmptyslot} ที่</Text></Text></Text>
         
         
         <Text style={styles.textsame}>
           <Image source={alertcar} style={styles.alertim} />
-          มีรถ {car} คันกำลังมายังลานจอดนี้
+          {"  "}มีรถ {car} คันกำลังมายังลานจอดนี้
         </Text>
-        <TouchableOpacity style={styles.btnview}>
+        <TouchableOpacity style={styles.btnview} onPress = {() => navigation.navigate('Car')}>
           <Text style={styles.textbtn}>ออกจากการนำทาง</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnreport}>
+        <TouchableOpacity style={styles.btnreport} onPress = {() => navigation.navigate('Report')}>
           <Image source={alertre} style={styles.alertre} />
           <Text style={styles.reportbtn}>แจ้งปัญหา</Text>
         </TouchableOpacity>
@@ -145,9 +151,9 @@ const styles = StyleSheet.create({
   },
   bottom: {
     position: "absolute",
-    top: 520,
-    width: 430,
-    height: 295,
+    top: SCREEN_HEIGHT/1.8,
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "#FFFFFF",
@@ -171,37 +177,37 @@ const styles = StyleSheet.create({
   },
   alertim: {
     top: 5,
-    width: 20,
-    height: 20,
+    width: 15,
+    height: 15,
   },
   textsame: {
-    paddingLeft: 5,
-    top: 32,
-    left: 30,
+    paddingLeft: 10,
+    top: 37,
+    left: 20,
     fontSize: 15,
     color: "#818181",
   },
 
   btnview: {
-    position: "absolute",
-    top: 100,
-    left: 45,
-    width: 150,
-    height: 85,
+    top: SCREEN_HEIGHT/10,
+    left: SCREEN_WIDTH/13,
+    width: SCREEN_WIDTH/2.5,
+    height: SCREEN_HEIGHT/9,
     borderRadius: 10,
     backgroundColor: "#045497",
   },
   textbtn: {
-    top: 29,
+    top: SCREEN_HEIGHT/25,
+    justifyContent: 'center',
     textAlign: "center",
     color: "#FFFFFF",
   },
   btnreport: {
-    position: "absolute",
-    top: 100,
-    left: 230,
-    width: 150,
-    height: 85,
+    position: 'absolute',
+    top: SCREEN_HEIGHT/6.2,
+    left: SCREEN_WIDTH/1.9,
+    width: SCREEN_WIDTH/2.5,
+    height: SCREEN_HEIGHT/9,
     borderRadius: 10,
     backgroundColor: "#F6F6F6",
   },

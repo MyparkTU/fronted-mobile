@@ -35,6 +35,22 @@ export default function Favorites() {
     }
     return false;
   };
+
+  // const [isLoading, setLoading] = useState(false);
+
+  // const setFav = async () => {
+  //   try {
+  //    localStorage.setItem(setFavoriteList, favoriteList);
+  //  } catch (error) {
+  //    console.error(error);
+  //  } finally {
+  //    setLoading(false);
+  //  }
+  // }
+
+  // useEffect(() => {
+  //   setFav();
+  // }, []);
   return (
     <SafeAreaView style={{flex: 1}}>
       <FlatList 
@@ -51,7 +67,7 @@ export default function Favorites() {
               dispatch(setParkLongtitude(item.longtitude)),
               dispatch(setParkImage(item.img)),
               )}>
-                <Image source={imageMap} />
+                <Image style={{width: 100, height: 100, borderRadius: 10}} source={{uri: item.img[0]}} />
                 <Text style={styles.btnMap}>
                   {item.name + "\n"}
                   <Text style={{fontSize: 14, color: '#818181'}}>
@@ -73,7 +89,7 @@ export default function Favorites() {
                         })
 
                       }
-                      {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม"}</Text>: <Text style={{color: '#035397'}}>{"\n" + "ว่าง " + item.quantity + " ที่"} </Text> }
+                      {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม                         "}</Text>: <Text style={{color: '#035397'}}>{"\n" + "ว่าง " + item.quantity + " ที่                         "} </Text> }
                       <TouchableOpacity
                         style={styles.icon}
                         onPress={() => ifExists(item) ? onRemoveFavorite(item) : onFavorite(item)}

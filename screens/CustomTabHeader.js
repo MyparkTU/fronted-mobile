@@ -28,7 +28,7 @@ export default function App() {
   const getPark = async () => {
      try {
       // const response = await fetch('http:/192.168.1.132:3001/places/All');
-      const response = await fetch('http:/172.20.10.6:3001/places/All');
+      const response = await fetch('http:/192.168.168.182:3001/places/All');
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -54,25 +54,6 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-
-  const search = [
-    "ลานจอดรถคณะวิศวะ 1", 
-    "ลานจอดรถคณะวิศวะ 2", 
-    "ลานจอดรถคณะวิศวะ 3", 
-    "ลานจอดรถคณะ SIIT",
-    "ลานจอดรถยิม 4",
-    "ลานจอดรถหลังสระว่ายน้ำ",
-    "ลานจอดรถหลังClass",
-    "ลานจอดรถหน้ายิม 7",
-    "ลานจอดรถหลังยิม 7",
-    "ลานจอดรถหลังโรงอาหาร sc",
-    "ลานจอดรถใต้สวนป๋วย",
-    "ลานจอดรถหลังสวนป๋วย",
-    "ลานจอดรถข้างบร.5",
-    "ลานจอดรถตรงข้ามบร.4",
-    "ลานจอดรถหลังโรงอาหารgreen",
-    "ลานจอดรถข้างตึกหอใน M"
-  ]
 
   return (
     <SafeAreaView style={{flex: 0.5}}>

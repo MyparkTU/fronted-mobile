@@ -23,7 +23,7 @@ export default function App() {
   const getCar = async () => {
      try {
       // const response = await fetch('http:/192.168.1.132:3001/places/car');
-      const response = await fetch('http:/172.20.10.6:3001/places/car');
+      const response = await fetch('http:/192.168.168.182:3001/places/car');
       const json = await response.json();
       setLoading(true);
       setData(json);
@@ -101,7 +101,7 @@ export default function App() {
                         })
 
                       }
-                      {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม"}</Text>: <Text style={{color: '#035397'}}>{"\n" + "ว่าง " + item.quantity + " ที่"} </Text> }
+                      {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม                         "}</Text>: <Text style={{color: '#035397'}}>{"\n" + "ว่าง " + item.quantity + " ที่                         "} </Text> }
                       <TouchableOpacity
                         style={styles.icon}
                         onPress={() => ifExists(item) ? onRemoveFavorite(item) : onFavorite(item)}
