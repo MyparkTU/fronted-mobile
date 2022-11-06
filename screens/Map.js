@@ -8,48 +8,59 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import { useSelector } from 'react-redux';
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { GOOGLE_API_KEY } from "../environments";
 import MapViewDirections from "react-native-maps-directions";
 import * as Location from 'expo-location';
 
-const carlocation = require("../assets/icon/CarLocation.png");
 const alertcar = require("../assets/icon/AlertCar.png");
 const alertre = require("../assets/icon/ReportAlert.png");
+const carlocation = require("../assets/icon/CarLocation.png");
+const GOOGLE_API_KEY = "AIzaSyCH9insydnCX6StGLAx-TzqG-VXhHRQeR0"
 
-export default function App() {
+function App() {
+  const { park, parkInfo, parkLatitude, parkLongtitude, parkEmptyslot } = useSelector(state => state.dbReducer);
   const { width, height } = Dimensions.get("window");
 
   const [destination, setdes] = useState({
-    latitude: 14.069905376912853,
-    longitude: 100.60598635193016,
+    latitude: Number(parkLatitude),
+    longitude: Number(parkLongtitude),
   });
 
   const [origin, setOrigin] = useState({ 
-    latitude: 14.065660133802341,
-    longitude: 100.61451161419107,
+    latitude: 0,
+    longitude: 0,
   });
-
-
+ 
   const ASPECT_RATIO = width / height;
-  const LATITUDE_DELTA = width / height * 0.06;
-  const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+  const LATITUDE_DELTA = (destination.latitude - origin.latitude)* 2.5
+  const LONGITUDE_DELTA = (destination.longitude - origin.longitude)* 2.5
   const INITIAL_POSITION = {
-    latitude: (destination.latitude + origin.latitude)/2,
-    longitude: (destination.longitude + origin.longitude)/2,
+    latitude: (destination.latitude  + origin.latitude)/2,
+    longitude: (destination.latitude  + origin.longitude)/2,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   };
 
 
-  const [time, setTime] = useState("5");
-  const [dis, setDis] = useState("500");
-  const [lot, setLot] = useState("20");
-  const [car, setCar] = useState("3");
+  const [duration, setDuration] = useState(0);
+  const [distance, setDistance] = useState(0);
+  const [lot, setLot] = useState(0);
+  const [car, setCar] = useState(0);
+  const [directionsResponse, setDirectionsResponse] = useState(null)
+
+  const traceRouteOnReady = (args) => {
+    if (args) {
+      setDistance(args.distance)
+      setDuration(args.duration)
+    }
+
+  }
 
   React.useEffect(() => {
     getLocationPermission();
   }, [])
+
 
   async function getLocationPermission() {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -65,7 +76,6 @@ export default function App() {
     setOrigin(current);
   }
 
-
   return (
     <View style={styles.container}>
       <MapView
@@ -73,12 +83,6 @@ export default function App() {
         provider={PROVIDER_GOOGLE}
         initialRegion={INITIAL_POSITION}
       >
-        <MapView.Marker
-          coordinate={destination}
-          title={"ลานจอดรถคณะวิศวะ 1"}
-          description={"ลานจอด des"}
-        />
-
         <MapView.Marker 
           Image={carlocation}
           draggable
@@ -86,37 +90,32 @@ export default function App() {
           onDragEnd={(direction) => setOrigin(direction.nativeEvent.coordinate)}
         />
         <MapViewDirections origin={origin} destination={destination}/>
+        <MapView.Marker
+          coordinate={destination}
+          title={park}
+          description={parkInfo}
+        />
 
-
+        <MapViewDirections
+          origin={origin}
+          destination={destination}
+          apikey= {GOOGLE_API_KEY}
+          strokeColor="#5086EC"
+          strokeWidth={5}
+          onReady={traceRouteOnReady}
+          
+        />
       </MapView>
 
+      
 
-
-
-
-      {/* <View style={styles.searchContainer}>
-      <GooglePlacesAutocomplete
-        styles={{ textInput: styles.input}}
-        placeholder="Search"
-        onPress={(data, details = null) => {
-          // 'details' is provided when fetchDetails = true
-          console.log(data, details);
-        }}
-        query={{
-          key: "key",
-          language: "en",
-        }}
-      />
-      </View> */}
-
-
-
-     
 
       <View style={styles.bottom}>
-        <Text style={styles.texttime}>{time} นาที</Text>
-        <Text style={styles.textdis}>({dis} ม.)</Text>
-        <Text style={styles.emptylot}>ว่าง {lot} ที่</Text>
+        <Text style={styles.texttime}>{Math.ceil(duration)} นาที {" "}
+        <Text style={styles.textdis}>({distance.toFixed(2)} กม.) {" "}
+        <Text style={styles.emptylot}>ว่าง {lot} ที่</Text></Text></Text>
+        
+        
         <Text style={styles.textsame}>
           <Image source={alertcar} style={styles.alertim} />
           มีรถ {car} คันกำลังมายังลานจอดนี้
@@ -155,24 +154,20 @@ const styles = StyleSheet.create({
   },
 
   texttime: {
-    position: "absolute",
     top: 25,
     left: 30,
-    fontSize: 20,
+    fontSize: 22,
     color: "#50C377",
   },
   textdis: {
-    position: "absolute",
-    top: 25,
-    left: 90,
-    fontSize: 20,
+    color: "black",
+    left: 100,
+    fontSize: 22,
+    paddingLeft:10
   },
 
   emptylot: {
-    position: "absolute",
-    top: 30,
-    left: 170,
-    fontSize: 17,
+    fontSize: 16,
   },
   alertim: {
     top: 5,
@@ -181,7 +176,7 @@ const styles = StyleSheet.create({
   },
   textsame: {
     paddingLeft: 5,
-    top: 60,
+    top: 32,
     left: 30,
     fontSize: 15,
     color: "#818181",
@@ -222,3 +217,5 @@ const styles = StyleSheet.create({
     height: 40,
   },
 });
+
+export default App;

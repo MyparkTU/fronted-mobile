@@ -5,6 +5,9 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { ScrollView } from 'react-native-gesture-handler';
+import ImagesSwiper from "react-native-image-swiper";
+import { useFonts } from 'expo-font';
+import Swiper from 'react-native-swiper'
 
 const buttonImageReport = require('../../assets/button/btnProblem.png');
 const buttonImageNavi = require('../../assets/button/btnRoute.png');
@@ -14,23 +17,32 @@ const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export default function App() {
+
     const navigation = useNavigation();
-    const { park, parkInfo } = useSelector(state => state.dbReducer);
+    const { park, parkInfo, parkImage, parkImage2, parkImage3, parkImage4 } = useSelector(state => state.dbReducer);
+    const parkImageStack = [parkImage, parkImage2, parkImage3]
     return (
         <View style={styles.container}>
-            <Image source={imageMap} />
-            <Text style={{fontSize: 20, color: '#343434'}}>
+            <ImagesSwiper 
+                images={parkImageStack}
+                autoplay={true}
+                autoplayTimeout={1.5} 
+                showsPagination={true}
+                width={SCREEN_WIDTH - 40} 
+                height={(SCREEN_HEIGHT / 2)}
+            />
+            <Text style={{fontSize: 20, color: '#343434', fontFamily: 'Prompt-Regular'}}>
                 {park}
             </Text>
-            <Text style={{fontSize: 14, color: '#818181', marginBottom: 40}}>
+            <Text style={{fontSize: 14, color: '#818181', marginBottom: 40, fontFamily: 'Prompt-Regular'}}>
                 {parkInfo}
             </Text>
             <View style={styles.btn}>
                 <TouchableOpacity onPress = {() => navigation.navigate('Map', {}) }>
-                    <Image source={buttonImageNavi}/>
+                    <Image source={buttonImageNavi} style={{width: 150, height: 93, marginRight: 10}}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress = {() => navigation.navigate('Report', {}) }>
-                    <Image source={buttonImageReport}/>
+                    <Image source={buttonImageReport} style={{width: 150, height: 93}}/>
                 </TouchableOpacity>
             </View>
         </View>
@@ -39,10 +51,9 @@ export default function App() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 3,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
     },
     btn: {
         alignSelf: 'center',
