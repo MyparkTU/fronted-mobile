@@ -33,7 +33,7 @@ export default function App() {
   const [data, setData] = useState([]);
   const getCar = async () => {
     try {
-     const response = await fetch('http:/192.168.168.182:3001/places/bicycle');
+     const response = await fetch('http:/:3001/places/bicycle');
      const json = await response.json();
      setLoading(true);
      setData(json);

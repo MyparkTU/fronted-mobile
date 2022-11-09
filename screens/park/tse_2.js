@@ -1,13 +1,8 @@
 import * as React from 'react';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { ScrollView } from 'react-native-gesture-handler';
 import ImagesSwiper from "react-native-image-swiper";
-import { useFonts } from 'expo-font';
-import Swiper from 'react-native-swiper'
 
 const buttonImageReport = require('../../assets/button/btnProblem.png');
 const buttonImageNavi = require('../../assets/button/btnRoute.png');
@@ -19,7 +14,7 @@ const {width: SCREEN_WIDTH} = Dimensions.get('window');
 export default function App() {
 
     const navigation = useNavigation();
-    const { park, parkInfo, parkImage, parkImage2, parkImage3, parkImage4 } = useSelector(state => state.dbReducer);
+    const { park, parkInfo, parkImage, parkImage2 } = useSelector(state => state.dbReducer);
     const parkImageStack = [String(parkImage), String(parkImage2)]
     return (
         <View style={styles.container}>
@@ -41,10 +36,10 @@ export default function App() {
                     {parkInfo}
                 </Text>
                 <View style={styles.btn}>
-                    <TouchableOpacity onPress = {() => navigation.navigate('Map', {}) }>
+                    <TouchableOpacity onPress = {() => navigation.navigate('Map') }>
                         <Image source={buttonImageNavi} style={{width: 150, height: 93, marginRight: 10}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress = {() => navigation.navigate('Report', {}) }>
+                    <TouchableOpacity onPress = {() => navigation.navigate('Report') }>
                         <Image source={buttonImageReport} style={{width: 150, height: 93}}/>
                     </TouchableOpacity>
                 </View>

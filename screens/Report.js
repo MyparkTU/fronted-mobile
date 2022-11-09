@@ -1,40 +1,29 @@
-import React, { useEffect, useState }  from "react";
+import React, { useState }  from "react";
 import {
-  ImageBackground,
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Image,
   Dimensions,
   Button,
   Alert
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { TextInput } from "react-native-gesture-handler";
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 const pb = ["ที่จอดรถไม่เพียงพอ", "จอดคร่อมเลน", "จอดรถซ้อนคัน","การเฉี่ยวชน","ที่จอดชำรุด"];
-const imageMap = require('../assets/map/fullTsePark2.png');
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
-const {width: SCREEN_WIDTH} = Dimensions.get('window');
-const aleartforsubmit = () => {
-  Alert.alert('รายงานสำเร็จ!', 'ดำเนินการรายงานไปยังเจ้าหน้าที่เรียบร้อย')
-};
-
-
 
 export default function Report() {
   const navigation = useNavigation();
-  const { park, parkInfo, park2, parkInfo2, parkLatitude, parkLongtitude, parkImage } = useSelector(state => state.dbReducer);
+  const { park, parkInfo, parkImage } = useSelector(state => state.dbReducer);
   const [head, setHead] = useState("");
   const [type, setType] = useState("");
   const [des, setDes] = useState("");
-  const [data, setData] = useState([des + type + head]);
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -43,11 +32,12 @@ export default function Report() {
 
   const postReport = async () => {
     try {
-      await fetch('http:/172.20.10.6:3001/reports/create', requestOptions)
+      await fetch('http:/192.168.1.132:3001/reports/create', requestOptions)
         .then(response => {
           response.json()
               .then(data => {
                 Alert.alert('รายงานสำเร็จ!', 'ดำเนินการรายงานไปยังเจ้าหน้าที่เรียบร้อย')
+                navigation.navigate('Car')
               });
       })
     } catch (error) {
@@ -64,18 +54,12 @@ export default function Report() {
         </View>
         
         <Text style={styles.textPet}>{park + "\n"}
-          <Text style={{fontSize: 14, color: '#818181'}}>
+          <Text style={{fontSize: 14, color: '#818181', fontFamily: 'Prompt-Regular'}}>
             {parkInfo}
           </Text>
         </Text>
         <Text style={styles.textSub}>หัวข้อเรื่อง</Text>
         <Text style={styles.textCourse}>เลือกประเภทปัญหาที่พบ</Text>
-        {/* <View style={styles.addIMG}>
-                    <Button 
-                        color='#14AAF5'
-                        title="+ รูปภาพ"
-                    />
-        </View> */}
         <Text style={styles.textDes}>อธิบายปัญหาเพิ่มเติมจากที่คุณพบ</Text>
         <View style={styles.textInput}>
           <TextInput
@@ -90,7 +74,6 @@ export default function Report() {
         <SelectDropdown
           data={pb}
           onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
             setType(selectedItem);
           }}
           defaultButtonText={" "}
@@ -156,52 +139,42 @@ const styles = StyleSheet.create({
     top: 210,
     fontSize: 20,
     fontWeight: "400",
-    fontStyle: "normal",
+    fontFamily: 'Prompt-Regular',
     color: "#100F0F",
   },
   textSub: {
     position: "absolute",
-    top: 260,
+    top: 262,
     width: 178,
     height: 26,
     fontSize: 20,
     fontWeight: "400",
-    fontStyle: "normal",
-    color: "#100F0F",
-  },
-  textTerm: {
-    position: "absolute",
-    top: 240,
-    width: 178,
-    height: 26,
-    fontSize: 20,
-    fontWeight: "400",
-    fontStyle: "normal",
+    fontFamily: 'Prompt-Regular',
     color: "#100F0F",
   },
   textCourse: {
     position: "absolute",
-    top: 340,
+    top: 350,
     width: 300,
     height: 26,
     fontSize: 20,
     fontWeight: "400",
-    fontStyle: "normal",
+    fontFamily: 'Prompt-Regular',
     color: "#100F0F",
   },
   textDes: {
     position: "absolute",
-    top: 430,
+    top: 440,
     width: 300,
     height: 26,
     fontSize: 20,
     fontWeight: "400",
-    fontStyle: "normal",
+    fontFamily: 'Prompt-Regular',
     color: "#100F0F",
   },
   textInput: {
     position: "absolute",
-    top: 290,
+    top: 300,
     width: 294,
     height: 42,
     borderRadius: 10,
@@ -228,7 +201,7 @@ const styles = StyleSheet.create({
 
   dropdownCourseBtnStyle: {
     position: "absolute",
-    top: 380,
+    top: 390,
     width: 200,
     height: 42,
     borderRadius: 10,
@@ -241,7 +214,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 1,
   },
-
+dropdown1DropdownStyle: {backgroundColor: '#EFEFEF', borderRadius: 10},
+    dropdown1RowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#B3B3B3'},
   dropdown1RowTxtStyle: { color: "#444" },
   dropdown1SelectedRowStyle: { backgroundColor: "#B3B3B3" },
   dropdown1searchInputStyleStyle: {
@@ -251,7 +225,7 @@ const styles = StyleSheet.create({
   },
   Description: {
     position: "absolute",
-    top: 470,
+    top: 480,
     width: 294,
     height: 90,
     borderRadius: 10,

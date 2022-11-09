@@ -1,27 +1,23 @@
-import { StyleSheet, Text, View, SafeAreaView, VirtualizedList, ScrollView, TouchableOpacity, Image, Dimensions, ImageBackground,FlatList } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, Dimensions, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPark, setParkInfo, setParkImage, setParkImage2, setParkImage3, setParkEmptyslot, setParkLatitude, setParkLongtitude, setFavoriteList } from '../redux/action';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { setPark, setParkInfo, setParkImage, setParkImage2, setParkEmptyslot, setParkLatitude, setParkLongtitude, setFavoriteList } from '../redux/action';
 import React, { useEffect, useState } from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const HeadImage = require('../assets/images/HeaderHome.png');
-const imageMap = require('../assets/map/tsePark2.png');
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export default function App() {
   const navigation = useNavigation();
-  const { park, parkInfo, park2, parkInfo2, favoriteList, parkImage, parkImage2 } = useSelector(state => state.dbReducer);
+  const { favoriteList, parkImage, parkImage2 } = useSelector(state => state.dbReducer);
   const dispatch = useDispatch();
 
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const getMotorcycle = async () => {
     try {
-     const response = await fetch('http:/192.168.168.182:3001/places/motorcycle');
+     const response = await fetch('http:/:3001/places/motorcycle');
      const json = await response.json();
      setLoading(true);
      setData(json);

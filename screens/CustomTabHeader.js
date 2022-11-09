@@ -1,13 +1,11 @@
-import { StyleSheet, Text, View, SafeAreaView, VirtualizedList, ScrollView, TouchableOpacity, Image, Dimensions, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, ImageBackground } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setPark, setParkInfo, setParkImage, setParkImage2, setParkEmptyslot, setParkLatitude, setParkLongtitude } from '../redux/action';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { TextInput } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useEffect, useState, useCallback } from 'react';
-import { useFonts } from 'expo-font';
+import React, { useEffect, useState } from 'react';
 
 const HeadImage = require('../assets/images/HeaderHome.png');
 const imageMap = require('../assets/map/tsePark2.png');
@@ -15,44 +13,24 @@ const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    'Prompt-Regular': require('../assets/fonts/Prompt-Regular.ttf'),
-  });
   const navigation = useNavigation();
-  const { park, parkInfo, park2 } = useSelector(state => state.dbReducer);
   const dispatch = useDispatch();
 
-  const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
   const getPark = async () => {
      try {
-      const response = await fetch('http:/192.168.168.182:3001/places/All');
+      const response = await fetch('http:/:3001/places/All');
       const json = await response.json();
       setData(json);
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   }
 
   useEffect(() => {
     getPark();
-    loadFont();
   }, []);
-
-  const loadFont = async() => {
-    try {
-      fontsLoaded
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <SafeAreaView style={{flex: 0.5}}>
@@ -82,7 +60,9 @@ export default function App() {
                 dispatch(setParkEmptyslot(selectedItem.quantity)),
                 dispatch(setParkLatitude(selectedItem.latitude)),
                 dispatch(setParkLongtitude(selectedItem.longtitude)),
-                dispatch(setParkImage(selectedItem.img)))
+                dispatch(setParkImage(selectedItem.img[0])),
+                dispatch(setParkImage2(selectedItem.img[1])),
+                )
             }}
             defaultButtonText={'จอดไหนดี?'}
             buttonTextAfterSelection={(item, index) => {
@@ -130,8 +110,7 @@ const styles = StyleSheet.create({
     textHead1: {
         color: '#035397',
         fontSize: 24,
-        fontWeight: 'bold',
-        fontFamily: 'Prompt-Regular'
+        fontFamily: 'Prompt-Bold'
     },
     textInput: {
         alignSelf: 'stretch',

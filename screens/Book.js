@@ -1,21 +1,15 @@
-import { StyleSheet, Text, View, SafeAreaView, VirtualizedList, ScrollView, TouchableOpacity, Image, Dimensions, ImageBackground, FlatList, AsyncStorage} from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, Dimensions, FlatList} from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPark, setParkInfo, setParkImage, setParkImage2, setParkImage3, setParkEmptyslot, setParkLatitude, setParkLongtitude, setFavoriteList } from '../redux/action';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import React, { useEffect, useState } from 'react';
+import { setPark, setParkInfo, setParkImage, setParkImage2, setParkEmptyslot, setParkLatitude, setParkLongtitude, setFavoriteList } from '../redux/action';
+import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { useIsFocused } from '@react-navigation/native';
-import Car from '../screens/Car'
 
-const HeadImage = require('../assets/images/HeaderHome.png');
-const imageMap = require('../assets/map/tsePark2.png');
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export default function Favorites() {
-  const { park, parkInfo, park2, parkInfo2, parkLatitude, parkLongtitude, parkImage, favoriteList } = useSelector(state => state.dbReducer);
+  const { favoriteList } = useSelector(state => state.dbReducer);
   const dispatch = useDispatch();
   const totalStars = 5;
   const navigation = useNavigation();
@@ -36,21 +30,6 @@ export default function Favorites() {
     return false;
   };
 
-  // const [isLoading, setLoading] = useState(false);
-
-  // const setFav = async () => {
-  //   try {
-  //    localStorage.setItem(setFavoriteList, favoriteList);
-  //  } catch (error) {
-  //    console.error(error);
-  //  } finally {
-  //    setLoading(false);
-  //  }
-  // }
-
-  // useEffect(() => {
-  //   setFav();
-  // }, []);
   return (
     <SafeAreaView style={{flex: 1}}>
       <FlatList 
@@ -65,7 +44,8 @@ export default function Favorites() {
               dispatch(setParkEmptyslot(item.quantity)),
               dispatch(setParkLatitude(item.latitude)),
               dispatch(setParkLongtitude(item.longtitude)),
-              dispatch(setParkImage(item.img)),
+              dispatch(setParkImage(item.img[0])),
+              dispatch(setParkImage2(item.img[1])),
               )}>
                 <Image style={{width: 100, height: 100, borderRadius: 10}} source={{uri: item.img[0]}} />
                 <Text style={styles.btnMap}>
@@ -179,14 +159,4 @@ const styles = StyleSheet.create({
   icon: {
     position: 'relative',
   },
-  search: {
-    alignSelf: 'center',
-    flexDirection: 'row',
-    fontSize: 15,
-    height: 50,
-    marginLeft: 50,
-    marginRight: 50,
-    borderRadius: 10,
-    marginTop: 10
-  }
 });

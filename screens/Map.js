@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import {
   StyleSheet,
@@ -10,14 +10,12 @@ import {
   LogBox
 } from "react-native";
 import { useSelector } from 'react-redux';
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import MapViewDirections from "react-native-maps-directions";
 import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
 
 const alertcar = require("../assets/icon/AlertCar.png");
 const alertre = require("../assets/icon/ReportAlert.png");
-const carlocation = require("../assets/icon/CarLocation.png");
 const GOOGLE_API_KEY = "AIzaSyCH9insydnCX6StGLAx-TzqG-VXhHRQeR0"
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -30,7 +28,7 @@ function App() {
   LogBox.ignoreLogs(['MapViewDirections Error: Missing API Key'])
   LogBox.ignoreLogs(['Warning: Failed prop type: The prop `apikey` is marked as required in `MapViewDirections`, but its value is `undefined`.'])
 
-  const [destination, setdes] = useState({
+  const [destination] = useState({
     latitude: Number(parkLatitude),
     longitude: Number(parkLongtitude),
   });
@@ -52,7 +50,6 @@ function App() {
 
   const [duration, setDuration] = useState(0);
   const [distance, setDistance] = useState(0);
-  const [lot, setLot] = useState(0);
   const [car, setCar] = useState(0);
   const [directionsResponse, setDirectionsResponse] = useState(null)
 
