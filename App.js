@@ -18,7 +18,6 @@ import { Store } from './redux/store';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
   const [fontsLoaded] = useFonts({
     'Prompt-Regular': require('./assets/fonts/Prompt-Regular.ttf'),
     'Prompt-Bold': require('./assets/fonts/Prompt-Bold.ttf'),
@@ -30,6 +29,7 @@ export default function App() {
       console.error(error);
     } 
   }
+
   useEffect(() => {
     loadFont();
   }, []);

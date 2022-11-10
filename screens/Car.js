@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, Dimensions, FlatList} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPark, setParkInfo, setParkImage, setParkImage2, setParkEmptyslot, setParkLatitude, setParkLongtitude, setFavoriteList } from '../redux/action';
+import { setPark, setParkInfo, setParkImage, setParkImage2, setParkEmptyslot, setParkLatitude, setParkLongtitude, setFavoriteList, setCurrentLatitude, setCurrentLongtitude } from '../redux/action';
 import React, { useEffect, useState } from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import * as Location from 'expo-location';
 
 const HeadImage = require('../assets/images/HeaderHome.png');
 const imageMap = require('../assets/map/tsePark2.png');
@@ -12,8 +13,20 @@ const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export default function App() {
   const navigation = useNavigation();
+  const { currentLatitude, currentLongtitude } = useSelector(state => state.dbReducer);
   const { favoriteList } = useSelector(state => state.dbReducer);
   const dispatch = useDispatch();
+
+  async function getLocationPermission() {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if(status !== 'granted') {
+      alert('Permission denied');
+      return;
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    dispatch(setCurrentLatitude(location.coords.latitude));
+    dispatch(setCurrentLongtitude(location.coords.longitude));
+  }
 
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -32,7 +45,10 @@ export default function App() {
   }
 
   useEffect(() => {
+    getLocationPermission();
     getCar();
+    console.log(currentLatitude);
+    console.log(currentLongtitude);
   }, []);
 
   const totalStars = 5;

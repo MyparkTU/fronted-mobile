@@ -5,6 +5,8 @@ export const SET_PARK_STAR = 'SET_PARK_STAR';
 export const SET_PARK_EMPTYSLOT = 'SET_PARK_EMPTYSLOT';
 export const SET_PARK_LATITUDE = 'SET_PARK_LATITUDE';
 export const SET_PARK_LONGTITUDE = 'SET_PARK_LONGTITUDE';
+export const SET_CURRENT_LATITUDE = 'SET_CURRENT_LATITUDE';
+export const SET_CURRENT_LONGTITUDE = 'SET_CURRENT_LONGTITUDE';
 export const SET_FAVORITE_LIST = [];
 
 export const setPark = park => dispatch => {
@@ -47,6 +49,18 @@ export const setParkLongtitude = parkLongtitude => dispatch => {
     dispatch({
         type: SET_PARK_LONGTITUDE,
         payload: parkLongtitude,
+    });
+};
+export const setCurrentLatitude = currentLatitude => dispatch => {
+    dispatch({
+        type: SET_CURRENT_LATITUDE,
+        payload: currentLatitude,
+    });
+};
+export const setCurrentLongtitude = currentLongtitude => dispatch => {
+    dispatch({
+        type: SET_CURRENT_LONGTITUDE,
+        payload: currentLongtitude,
     });
 };
 export const setFavoriteList = favoriteList => dispatch => {

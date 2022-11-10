@@ -23,7 +23,7 @@ const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 function App() {
   const navigation = useNavigation();
-  const { park, parkInfo, parkLatitude, parkLongtitude, parkEmptyslot } = useSelector(state => state.dbReducer);
+  const { park, parkInfo, parkLatitude, parkLongtitude, parkEmptyslot, currentLatitude, currentLongtitude } = useSelector(state => state.dbReducer);
   const { width, height } = Dimensions.get("window");
   LogBox.ignoreLogs(['MapViewDirections Error: Missing API Key'])
   LogBox.ignoreLogs(['Warning: Failed prop type: The prop `apikey` is marked as required in `MapViewDirections`, but its value is `undefined`.'])
@@ -34,8 +34,8 @@ function App() {
   });
 
   const [origin, setOrigin] = useState({ 
-    latitude: 14.069905376912853,
-    longitude: 100.60598635193016,
+    latitude: Number(currentLatitude),
+    longitude: Number(currentLongtitude),
   });
  
   const LATITUDE_DELTA = 0.015
