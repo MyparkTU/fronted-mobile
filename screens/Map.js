@@ -66,7 +66,7 @@ function App() {
   }, [])
 
 
-  async function getLocationPermission() {
+  const getLocationPermission = async() => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if(status !== 'granted') {
       alert('Permission denied');

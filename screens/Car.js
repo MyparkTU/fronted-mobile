@@ -17,7 +17,7 @@ export default function App() {
   const { favoriteList } = useSelector(state => state.dbReducer);
   const dispatch = useDispatch();
 
-  async function getLocationPermission() {
+  const getLocationPermission = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if(status !== 'granted') {
       alert('Permission denied');
