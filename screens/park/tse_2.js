@@ -33,7 +33,7 @@ export default function App() {
                     {park}
                 </Text>
                 <Text style={{fontSize: 14, color: '#818181', marginBottom: 40, fontFamily: 'Prompt-Regular'}}>
-                    {parkInfo + " ว่าง " + parkEmptyslot + " ที่"}
+                    {parkInfo + " จอดได้ " + parkEmptyslot + " ที่"}
                 </Text>
                 <View style={styles.btn}>
                     <TouchableOpacity onPress = {() => navigation.navigate('Map') }>

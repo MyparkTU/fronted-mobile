@@ -18,6 +18,8 @@ const alertcar = require("../assets/icon/AlertCar.png");
 const alertre = require("../assets/icon/ReportAlert.png");
 const GOOGLE_API_KEY = "AIzaSyCH9insydnCX6StGLAx-TzqG-VXhHRQeR0"
 
+const buttonImageReport = require('../assets/button/problem.png');
+const buttonImageOut = require('../assets/button/out.png');
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -116,20 +118,28 @@ function App() {
       <View style={styles.bottom}>
         <Text style={styles.texttime}>{Math.ceil(duration)} นาที {" "}
         <Text style={styles.textdis}>({distance.toFixed(2)} กม.) {" "}
-        <Text style={styles.emptylot}>ว่าง {parkEmptyslot} ที่</Text></Text></Text>
+        <Text style={styles.emptylot}>จอดได้ {parkEmptyslot} ที่</Text></Text></Text>
         
         
         {/* <Text style={styles.textsame}>
           <Image source={alertcar} style={styles.alertim} />
           {"  "}มีรถ {car} คันกำลังมายังลานจอดนี้
         </Text> */}
-        <TouchableOpacity style={styles.btnview} onPress = {() => navigation.navigate('Car')}>
-          <Text style={styles.textbtn}>ออกจากการนำทาง</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btnreport} onPress = {() => navigation.navigate('Report')}>
-          <Image source={alertre} style={styles.alertre} />
-          <Text style={styles.reportbtn}>แจ้งปัญหา</Text>
-        </TouchableOpacity>
+        <View style={styles.btn}>
+          <TouchableOpacity onPress = {() => navigation.navigate('Car') }>
+            <Image source={buttonImageOut} style={{width: 150, height: 85.55, marginRight: 10}}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress = {() => navigation.navigate('Report') }>
+              <Image source={buttonImageReport} style={{width: 150, height: 86.69}}/>
+          </TouchableOpacity>
+          {/* <TouchableOpacity  onPress = {() => navigation.navigate('Car')}>
+            <Text style={styles.textbtn}>ออกจากการนำทาง</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress = {() => navigation.navigate('Report')}>
+            <Image source={alertre} style={styles.alertre} />
+            <Text style={styles.reportbtn}>แจ้งปัญหา</Text>
+          </TouchableOpacity> */}
+        </View>
       </View>
     </View>
   );
@@ -209,7 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
   },
   reportbtn: {
-    top: 20,
+    top: SCREEN_HEIGHT/25,
     textAlign: "center",
     color: "#045497",
   },
@@ -219,6 +229,11 @@ const styles = StyleSheet.create({
     width: 50,
     height: 40,
   },
+  btn: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+    top: SCREEN_HEIGHT/10
+  }
 });
 
 export default App;

@@ -17,7 +17,7 @@ export default function App() {
   const [data, setData] = useState([]);
   const getMotorcycle = async () => {
     try {
-     const response = await fetch('http:/:3001/places/motorcycle');
+     const response = await fetch('http:/172.20.10.3:3001/places/motorcycle');
      const json = await response.json();
      setLoading(true);
      setData(json);
@@ -30,7 +30,7 @@ export default function App() {
 
  useEffect(() => {
   getMotorcycle();
- }, [data]);
+ }, []);
 
   const totalStars = 5;
 
@@ -90,7 +90,7 @@ export default function App() {
                       })
 
                     }
-                    {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม                             "}</Text>: <Text style={{color: '#035397'}}>{"\n" + "ว่าง " + item.quantity + " ที่                     "} </Text> }
+                    {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม                             "}</Text>: <Text style={{color: '#035397'}}>{"\n" + "จอดได้ " + item.quantity + " ที่                   "} </Text> }
                     <TouchableOpacity
                         style={styles.icon}
                         onPress={() => ifExists(item) ? onRemoveFavorite(item) : onFavorite(item)}

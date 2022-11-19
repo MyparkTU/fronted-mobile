@@ -20,7 +20,7 @@ export default function App() {
 
   const getPark = async () => {
      try {
-      const response = await fetch('http:/:3001/places/All');
+      const response = await fetch('http:/172.20.10.3:3001/places/All');
       const json = await response.json();
       setData(json);
     } catch (error) {

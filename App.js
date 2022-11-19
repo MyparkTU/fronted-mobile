@@ -35,6 +35,7 @@ export default function App() {
     loadFont();
   }, []);
   LogBox.ignoreLogs(['expo-app-loading is deprecated in favor of expo-splash-screen: use SplashScreen.preventAutoHideAsync() and SplashScreen.hideAsync() instead. https://docs.expo.dev/versions/latest/sdk/splash-screen/'])
+  LogBox.ignoreLogs(['Sending `onAnimatedValueUpdate` with no listeners registered.'])
 
   if (!isLoadingComplete || !fontsLoaded) {
     return <AppLoading />;

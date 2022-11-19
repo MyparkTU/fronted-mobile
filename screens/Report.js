@@ -5,8 +5,8 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  Button,
-  Alert
+  Alert,
+  TouchableOpacity
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import SelectDropdown from "react-native-select-dropdown";
@@ -14,7 +14,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from 'react-redux';
 
-
+const buttonImageReport = require('../assets/button/report.png');
 const pb = ["ที่จอดรถไม่เพียงพอ", "จอดคร่อมเลน", "จอดรถซ้อนคัน","การเฉี่ยวชน","ที่จอดชำรุด"];
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
@@ -31,18 +31,20 @@ export default function Report() {
   };
 
   const postReport = async () => {
-    try {
-      await fetch('http:/192.168.1.132:3001/reports/create', requestOptions)
-        .then(response => {
-          response.json()
-              .then(data => {
-                Alert.alert('รายงานสำเร็จ!', 'ดำเนินการรายงานไปยังเจ้าหน้าที่เรียบร้อย')
-                navigation.navigate('Car')
-              });
-      })
-    } catch (error) {
-        console.error(error);
-    }
+    await fetch('http:/192.168.1.132:3001/reports/create', requestOptions)
+      .then(response => {
+        response.json()
+            .then(data => {
+              Alert.alert('รายงานสำเร็จ!', 'ดำเนินการรายงานไปยังเจ้าหน้าที่เรียบร้อย')
+              navigation.navigate('Car')
+            });
+    })
+    .catch (error => {
+      if (error.message == 'Error: You need to specify name or key when calling navigate with an object as the argument. See https://reactnavigation.org/docs/navigation-actions#navigate for usage.') {
+        Alert.alert('ไม่สำเร็จ!', 'ดำเนินการรายงานไปยังเจ้าหน้าที่เรียบร้อย')
+      }
+      console.error(error);
+    }) 
   }
 
   return (
@@ -115,11 +117,14 @@ export default function Report() {
           />
         </View>
         <View style={styles.btnSubmit}>
-          <Button 
+          {/* <Button 
               color='#035397'
               title="รายงาน"
               onPress={postReport}
-          />
+          /> */}
+            <TouchableOpacity onPress = {() => navigation.navigate(postReport()) }>
+              <Image source={buttonImageReport} style={{width: 316, height: 52}}/>
+            </TouchableOpacity>
         </View>
     </View>
   );
@@ -299,10 +304,8 @@ dropdown1DropdownStyle: {backgroundColor: '#EFEFEF', borderRadius: 10},
     borderRadius:10
   },
   btnSubmit: {
-    width: 300,
-    height: 50,
     top: 412,
-    borderRadius:10
+    alignItems: 'center'
   },
   container: {
     paddingTop:20,
