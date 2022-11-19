@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, Dimensions, FlatList} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, Dimensions, FlatList, AsyncStorage} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setPark, setParkInfo, setParkImage, setParkImage2, setParkEmptyslot, setParkLatitude, setParkLongtitude, setFavoriteList, setCurrentLatitude, setCurrentLongtitude } from '../redux/action';
@@ -13,9 +13,9 @@ const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export default function App() {
   const navigation = useNavigation();
-  const { currentLatitude, currentLongtitude } = useSelector(state => state.dbReducer);
-  const { favoriteList } = useSelector(state => state.dbReducer);
+  const { currentLatitude, currentLongtitude, favoriteList, parkEmptyslot } = useSelector(state => state.dbReducer);
   const dispatch = useDispatch();
+
 
   const getLocationPermission = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -44,14 +44,41 @@ export default function App() {
     }
   }
 
+  function sleep(time){
+    return new Promise((resolve)=>setTimeout(resolve,time)
+    )
+  }
+
   useEffect(() => {
     getLocationPermission();
-    getCar();
-    console.log(currentLatitude);
-    console.log(currentLongtitude);
-  }, []);
+    // if (isLoading) {
+    //   setLoading(false)
+    // } else {
+    //   setSleep();
+    // }
+    
+    const setSleep = async () => {
+      await getCar();
+      await sleep(1000);
+      console.log("sleep")
+    }
+    setSleep();
+    // setTimeout(() => {  console.log("World!"); }, 10000);
+    // console.log(currentLatitude);
+    // console.log(currentLongtitude);
+  }, [data]);
 
   const totalStars = 5;
+
+  const set = item => {
+    dispatch(setPark(item.name)), 
+    dispatch(setParkInfo(item.description)), 
+    dispatch(setParkEmptyslot(item.quantity)),
+    dispatch(setParkLatitude(item.latitude)),
+    dispatch(setParkLongtitude(item.longtitude)),
+    dispatch(setParkImage(item.img[0])),
+    dispatch(setParkImage2(item.img[1]))
+  }
 
   const onFavorite = book => {
     if (!favoriteList.includes(book)) dispatch(setFavoriteList(favoriteList.concat(book)));
@@ -78,15 +105,7 @@ export default function App() {
         renderItem={({ item }) => {
           return (
             <View style={styles.btn}>
-              <TouchableOpacity  style={{flexDirection: 'row'}} onPress = {() => navigation.navigate('TSE_1', 
-              dispatch(setPark(item.name)), 
-              dispatch(setParkInfo(item.description)), 
-              dispatch(setParkEmptyslot(item.quantity)),
-              dispatch(setParkLatitude(item.latitude)),
-              dispatch(setParkLongtitude(item.longtitude)),
-              dispatch(setParkImage(item.img[0])),
-              dispatch(setParkImage2(item.img[1])),
-              )}>
+              <TouchableOpacity  style={{flexDirection: 'row'}} onPress = {() => navigation.navigate('TSE_1', set(item))}>
                 <Image style={{width: 100, height: 100, borderRadius: 10}} source={{uri: item.img[0]}} />
                 <Text style={styles.btnMap}>
                   {item.name + "\n"}
@@ -109,17 +128,17 @@ export default function App() {
                         })
 
                       }
-                      {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม                         "}</Text>: <Text style={{color: '#035397'}}>{"\n" + "ว่าง " + item.quantity + " ที่                         "} </Text> }
-                      <TouchableOpacity
-                        style={styles.icon}
-                        onPress={() => ifExists(item) ? onRemoveFavorite(item) : onFavorite(item)}
-                      >
-                        <MaterialIcons
-                          name={ifExists(item) ? 'bookmark' : 'bookmark-outline'}
-                          size={20}
-                          color={'#035397'}
-                        />
-                      </TouchableOpacity>
+                      {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม                             "}</Text>: <Text style={{color: '#035397'}}>{"\n" + "ว่าง " + item.quantity + " ที่                     "} </Text> }
+                        <TouchableOpacity
+                          style={styles.icon}
+                          onPress={() => ifExists(item) ? onRemoveFavorite(item) : onFavorite(item)}
+                        >
+                          <MaterialIcons
+                            name={ifExists(item) ? 'bookmark' : 'bookmark-outline'}
+                            size={20}
+                            color={'#035397'}
+                          />
+                        </TouchableOpacity>
                   </Text>
                 </Text>
               </TouchableOpacity>
@@ -174,4 +193,13 @@ const styles = StyleSheet.create({
     width: '95%',
     alignSelf: 'center'
   },
+  icon: {
+    flexDirection: 'row',
+    backgroundColor: '#C9C9C9',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 25,
+    width: 25
+  }
 });

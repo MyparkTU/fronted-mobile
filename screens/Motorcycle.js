@@ -10,7 +10,7 @@ const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export default function App() {
   const navigation = useNavigation();
-  const { favoriteList, parkImage, parkImage2 } = useSelector(state => state.dbReducer);
+  const { favoriteList, parkImage, parkImage2, parkEmptyslot } = useSelector(state => state.dbReducer);
   const dispatch = useDispatch();
 
   const [isLoading, setLoading] = useState(false);
@@ -30,9 +30,19 @@ export default function App() {
 
  useEffect(() => {
   getMotorcycle();
- }, []);
+ }, [data]);
 
   const totalStars = 5;
+
+  const set = item => {
+    dispatch(setPark(item.name)), 
+    dispatch(setParkInfo(item.description)), 
+    dispatch(setParkEmptyslot(item.quantity)),
+    dispatch(setParkLatitude(item.latitude)),
+    dispatch(setParkLongtitude(item.longtitude)),
+    dispatch(setParkImage(item.img[0])),
+    dispatch(setParkImage2(item.img[1]))
+  }
 
   const onFavorite = book => {
     if (!favoriteList.includes(book)) dispatch(setFavoriteList(favoriteList.concat(book)));
@@ -58,16 +68,7 @@ export default function App() {
         contentContainerStyle={{backgroundColor: '#fff' }}
         renderItem={({ item }) => (
           <View style={styles.btn}>
-            <TouchableOpacity onPress = {() => navigation.navigate('TSE_1', dispatch(setPark(item.name)), 
-            dispatch(setParkInfo(item.description)), 
-            dispatch(setParkEmptyslot(item.quantity)),
-            dispatch(setParkLatitude(item.latitude)),
-            dispatch(setParkLongtitude(item.longtitude)),
-            dispatch(setParkImage(item.img[0])),
-            dispatch(setParkImage2(item.img[1])),
-            console.log(parkImage),
-            console.log(parkImage2),
-            )} style={{flexDirection: 'row'}}>
+            <TouchableOpacity  style={{flexDirection: 'row'}} onPress = {() => navigation.navigate('TSE_1', set(item))}>
               <Image style={{width: 100, height: 100, borderRadius: 10}} source={{uri: item.img[0]}} />
               <Text style={styles.btnMap}>
                 {item.name + "\n"}
@@ -80,7 +81,6 @@ export default function App() {
                           )
                       })
                     }
-
                     {
 
                       Array.from({length: totalStars-item.review}, (x, i) => {
@@ -90,7 +90,7 @@ export default function App() {
                       })
 
                     }
-                    {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม                         "}</Text>: <Text style={{color: '#035397'}}>{"\n" + "ว่าง " + item.quantity + " ที่                         "} </Text> }
+                    {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม                             "}</Text>: <Text style={{color: '#035397'}}>{"\n" + "ว่าง " + item.quantity + " ที่                     "} </Text> }
                     <TouchableOpacity
                         style={styles.icon}
                         onPress={() => ifExists(item) ? onRemoveFavorite(item) : onFavorite(item)}
@@ -209,5 +209,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderBottomWidth: 1,
     borderBottomColor: '#444',
-},
+  },
+  icon: {
+    flexDirection: 'row',
+    backgroundColor: '#C9C9C9',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 25,
+    width: 25
+  }
 });

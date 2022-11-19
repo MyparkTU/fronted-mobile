@@ -14,7 +14,8 @@ import { useFonts } from 'expo-font';
 import { LogBox  } from 'react-native';
 
 import { Provider } from 'react-redux';
-import { Store } from './redux/store';
+import { Store, persistor } from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -40,7 +41,9 @@ export default function App() {
   } else {
     return (
       <Provider store={Store}>
-        <Navigation />
+        <PersistGate loading={null} persistor={persistor}>
+          <Navigation />
+        </PersistGate>
       </Provider>
     );
   }

@@ -119,10 +119,10 @@ function App() {
         <Text style={styles.emptylot}>ว่าง {parkEmptyslot} ที่</Text></Text></Text>
         
         
-        <Text style={styles.textsame}>
+        {/* <Text style={styles.textsame}>
           <Image source={alertcar} style={styles.alertim} />
           {"  "}มีรถ {car} คันกำลังมายังลานจอดนี้
-        </Text>
+        </Text> */}
         <TouchableOpacity style={styles.btnview} onPress = {() => navigation.navigate('Car')}>
           <Text style={styles.textbtn}>ออกจากการนำทาง</Text>
         </TouchableOpacity>

@@ -14,6 +14,7 @@ export default function Favorites() {
   const totalStars = 5;
   const navigation = useNavigation();
 
+
   const onFavorite = book => {
     if (!favoriteList.includes(book)) dispatch(setFavoriteList(favoriteList.concat(book)));
   };
@@ -69,7 +70,7 @@ export default function Favorites() {
                         })
 
                       }
-                      {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม                         "}</Text>: <Text style={{color: '#035397'}}>{"\n" + "ว่าง " + item.quantity + " ที่                         "} </Text> }
+                      {item.quantity == 0 ? <Text style={{color: '#B70000'}}>{"\n" + "เต็ม                             "}</Text>: <Text style={{color: '#035397'}}>{"\n" + "ว่าง " + item.quantity + " ที่                     "} </Text> }
                       <TouchableOpacity
                         style={styles.icon}
                         onPress={() => ifExists(item) ? onRemoveFavorite(item) : onFavorite(item)}
@@ -157,6 +158,12 @@ const styles = StyleSheet.create({
       left: -2
   },
   icon: {
-    position: 'relative',
-  },
+    flexDirection: 'row',
+    backgroundColor: '#C9C9C9',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 25,
+    width: 25
+  }
 });
